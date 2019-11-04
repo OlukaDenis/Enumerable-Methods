@@ -54,16 +54,16 @@ module Enumerable
   def my_any?(arg = nil)
     if block_given?
       my_each { |element| return true if yield(element) }
-    elsif arg.nil?
-      my_each { |element| return true if element }
     elsif arg.class == Class
-      my_each { |element| return true if element.class.ancestors.include? arg }
+      my_each { |element| return true if element.class == arg }
     elsif arg.class == Regexp
       my_each { |element| return true if element =~ arg }
+    elsif arg.nil?
+      my_each { |element| return true if element }
     else
       my_each { |element| return true if element == arg }
     end
-    true
+    false
   end
 
   def my_none?(arg = nil)
@@ -118,7 +118,7 @@ module Enumerable
       result = if symbol
                  result.send(symbol, elem)
                else
-                 yield(resultrubco, elem)
+                 yield(result, elem)
                end
     end
     result
